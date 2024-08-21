@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "name": "Debug Server Development",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Debug E2E Test",
+      "request": "launch",
+      "command": "npm run test:e2e",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Debug Unit Test",
+      "request": "launch",
+      "command": "npm run test",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

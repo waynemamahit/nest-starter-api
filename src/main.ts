@@ -1,10 +1,13 @@
+import fastifyStatic from '@fastify/static';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cluster from 'cluster';
 import os from 'os';
+import { join } from 'path';
 import { AppModule } from './app.module';
 import { initPlugin } from './init';
 
@@ -25,7 +28,18 @@ async function bootstrap() {
     });
   } else {
     await initPlugin(app);
-    app.setGlobalPrefix('v1');
+    app.register(fastifyStatic, {
+      root: join(__dirname, 'public'),
+      prefix: '/public/', // optional: default '/'
+    });
+    app.setGlobalPrefix('api');
+    const config = new DocumentBuilder()
+      .setTitle('Nest Starter API Document Example')
+      .setDescription('The example API for Nest Starter API')
+      .setVersion('1.0')
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/docs', app, document);
     await app.listen(3000);
     console.log(`Worker ${process.pid} started`);
   }
