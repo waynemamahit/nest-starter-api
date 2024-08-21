@@ -7,8 +7,9 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { CounterDto } from './models/Counter';
 import { FormFilter } from './shared/filters/form.filter';
-import { CounterDto, CounterResponse } from './types/Counter';
+import { CounterResponse } from './types/Counter';
 
 @Controller('v1')
 @ApiTags('app')
