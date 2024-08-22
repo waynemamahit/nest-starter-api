@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { tags } from 'typia';
 
-export class CounterDto {
+export class AuthCounterDto {
   @ApiProperty({
     description: 'Name property',
     type: '',
@@ -13,3 +13,16 @@ export class CounterDto {
   })
   count: number & tags.Type<'uint64'>;
 }
+
+export const authCounterDtoMessages = [
+  {
+    message: 'Minimal length name is 3!',
+    path: '$input.name',
+    expected: 'MinLength<3>',
+  },
+  {
+    message: 'Count property must be number!',
+    path: '$input.count',
+    expected: 'uint64',
+  },
+];

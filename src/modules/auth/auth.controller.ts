@@ -7,36 +7,25 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CounterDto } from './models/Counter';
-import { FormFilter } from './shared/filters/form.filter';
-import { CounterResponse } from './types/Counter';
+import { FormFilter } from '../../common/filters/form.filter';
+import { AuthCounterDto, authCounterDtoMessages } from './auth.dto';
+import { AuthCounterResponse } from './auth.entity';
 
-@Controller('v1')
-@ApiTags('app')
-export class AppController {
+@Controller('v1/auth')
+@ApiTags('auth')
+export class AuthController {
   private counter = 0;
 
   @TypedRoute.Post()
-  @UseFilters(
-    new FormFilter([
-      {
-        message: 'Minimal length name is 3!',
-        path: '$input.name',
-        expected: 'MinLength<3>',
-      },
-      {
-        message: 'Count property must be number!',
-        path: '$input.count',
-        expected: 'uint64',
-      },
-    ]),
-  )
+  @UseFilters(new FormFilter(authCounterDtoMessages))
   @ApiBody({
-    type: CounterDto,
+    type: AuthCounterDto,
   })
   @ApiOperation({ summary: 'Increment the counter' })
   @ApiCreatedResponse({ description: 'Get increment counter' })
-  async getCount(@TypedBody() { count }: CounterDto): Promise<CounterResponse> {
+  async getCount(
+    @TypedBody() { count }: AuthCounterDto,
+  ): Promise<AuthCounterResponse> {
     this.counter += count as number;
     return {
       counter: this.counter,
@@ -46,7 +35,7 @@ export class AppController {
   @TypedRoute.Get('/heavy')
   @ApiOperation({ summary: 'Compute heavy counting' })
   @ApiOkResponse({ description: 'Get heavy counter' })
-  async getCountHeavy(): Promise<CounterResponse> {
+  async getCountHeavy(): Promise<AuthCounterResponse> {
     for (let i = 0; i <= 10000000000; i++) {
       this.counter++;
     }

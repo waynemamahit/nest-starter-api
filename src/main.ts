@@ -28,11 +28,11 @@ async function bootstrap() {
     });
   } else {
     await initPlugin(app);
+    app.setGlobalPrefix('api');
     app.register(fastifyStatic, {
       root: join(__dirname, 'public'),
       prefix: '/public/', // optional: default '/'
     });
-    app.setGlobalPrefix('api');
     const config = new DocumentBuilder()
       .setTitle('Nest Starter API Document Example')
       .setDescription('The example API for Nest Starter API')

@@ -1,5 +1,5 @@
 import { tags } from 'typia';
 
-export type CounterResponse = {
+export type AuthCounterResponse = {
   counter: number & tags.Type<'uint64'>;
 };
